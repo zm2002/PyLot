@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue } from 'firebase/database';
+import { MainPage } from './Pages/MainPage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAX52lk1_u3DWIzlGC7UDOgqFkPNf719qo",
@@ -40,7 +41,8 @@ export default function App() {
   // console.log(data11);
 
   return (
-    <View>
+    <View style={styles.container}>
+      <MainPage/>
       <Text>Data from Firebase:</Text>
       {data && data.West_Core ? (
         <View>
@@ -51,42 +53,8 @@ export default function App() {
       ) : (
         <Text>Loading...</Text>
       )}
+      <StatusBar style="auto" />
     </View>
   );
 };
 
-
-
-// export default function App() {
-
-//   // initialize the app
-//   const firebaseApp = initializeApp(firebaseConfig);
-
-//   // Reference to the root of the database
-//   const rootRef = ref(getDatabase(firebaseApp));
-
-//   // Listen for changes in the data
-//   onValue(rootRef, (snapshot) => {
-//     // Get the data from the snapshot
-//     const data = snapshot.val();
-
-//     // Now 'data' contains the entire content of the database
-//     console.log(data);
-//   });
-
-//   return (
-//     <View style={styles.container}>
-//       {data}
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
