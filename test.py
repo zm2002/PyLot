@@ -1,3 +1,5 @@
+# *** THIS FILE IS TO TEST A POST REQUEST TO REALTIME DATABASE (FIREBASE)
+
 import requests
 import json
 
