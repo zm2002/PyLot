@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Image, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('window'); // Get the full height of the screen
 
 const MainPage = () => {
+  const navigation = useNavigation(); // Hook to access navigation prop
   // Dummy data for the list items
   const locations = [
     { name: 'East Remote', count: 3 },
@@ -12,6 +14,12 @@ const MainPage = () => {
     { name: 'West Core', count: 4 },
     // ... add more locations if necessary
   ];
+
+  const navigateToLocation = (locationName) => {
+    // Navigation name should not have spaces, so replace them with an empty string
+    const screenName = locationName.replace(/\s+/g, '');
+    navigation.navigate(screenName);
+  };
 
   return (
     <View style={styles.container}>
@@ -27,14 +35,18 @@ const MainPage = () => {
           {locations.map((location, index) => {
             const locationTextStyle = location.count < 5 ? styles.textRed : styles.textDefault;
             return (
-              <View key={index.toString()} style={styles.locationItem}>
+              <TouchableOpacity
+                key={index.toString()}
+                style={styles.locationItem}
+                onPress={() => navigateToLocation(location.name)}
+              >
                 <Text style={[styles.locationName, locationTextStyle]}>
                   {location.name}
                 </Text>
                 <Text style={[styles.locationCount, locationTextStyle]}>
                   {location.count}
                 </Text>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
