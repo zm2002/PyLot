@@ -1,12 +1,15 @@
 import cv2
 import glob
 from vehicle_detector import VehicleDetector
+import os
 
 # Load Veichle Detector
 vd = VehicleDetector()
 
 # Load images from a folder
 images_folder = glob.glob("images/*.jpg")
+save_images = "images_carcounter"
+counter = 1
 
 vehicles_folder_count = 0
 
@@ -26,9 +29,15 @@ for img_path in images_folder:
 
         cv2.rectangle(img, (x, y), (x + w, y + h), (25, 0, 180), 3)
 
-        cv2.putText(img, "Vehicles: " + str(vehicle_count), (20, 50), 0, 2, (100, 200, 0), 3)
+        cv2.putText(
+            img, "Vehicles: " + str(vehicle_count), (20, 50), 0, 2, (100, 200, 0), 3
+        )
 
-    cv2.imshow("Cars", img)
+    cv2.imshow("Cars" + str(counter), img)
+    path_save = os.path.join(save_images, ("Cars" + str(counter) + ".jpg"))
+    print(path_save)
+    cv2.imwrite(path_save, img)
+    counter += 1
     cv2.waitKey(1)
 
 print("Total current count", vehicles_folder_count)
