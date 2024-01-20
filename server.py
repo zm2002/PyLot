@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def getCarData():
-    return "Welcome to the Banana Spot app!"
+    return "Welcome to the Banana Spot app!!!"
 
 @app.route('/get_parking_data', methods=['GET'])
 def get_parking_data():
