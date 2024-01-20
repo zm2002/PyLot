@@ -1,10 +1,16 @@
 # import the opencv library 
 import cv2
 import time
-from source_code.vehicle_detector import VehicleDetector  
+from source_code.vehicle_detector import VehicleDetector
+import json
+import requests
+from datetime import datetime
+
+
 # define a video capture object 
 vid = cv2.VideoCapture(0) 
 detector = VehicleDetector()
+url = 'https://bananaspot-249e7-default-rtdb.firebaseio.com/'
 try:
     while(True): 
       
@@ -23,7 +29,15 @@ try:
         # desired button of your choice 
         if cv2.waitKey(1) & 0xFF == ord('b'):
             break
-        time.sleep(120)
+
+
+        now = datetime.now()
+
+        current_time = now.strftime("%H:%M:%S")
+        dic = {'cars': len(boxes), 'time': current_time}
+        print("Current Time =", current_time)
+        response = requests.put(f'{url}/West_Core/data.json', json.dumps(dic))
+        time.sleep(10)
 except KeyboardInterrupt:
     pass
   
