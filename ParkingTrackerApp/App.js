@@ -38,7 +38,6 @@ export default function App() {
     };
   }, []); // Empty dependency array ensures the effect runs only once (on mount)
 
-  // console.log(data11);
 
   return (
     <View style={styles.container}>
