@@ -9,7 +9,7 @@ import WestRemotePage from './Pages/WestRemote';
 import LoadingScreen from './Pages/Loading';
 import ArtsLotPage from './Pages/ArtLot';
 import WestCorePage from './Pages/WestCore';
-import EastRemoteSwipe from './Pages/EastRemoteSwipe';
+// import EastRemoteSwipe from './Pages/EastRemoteSwipe';
 
 // Firebase imports
 import { convertJsonToLocationsArray } from './parkingDataConversion';
