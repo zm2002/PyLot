@@ -5,7 +5,7 @@ from source_code.vehicle_detector import VehicleDetector
 import json
 import requests
 from datetime import datetime
-
+SPACES_COUNT = 8
 import firebase_admin
 from firebase_admin import credentials
 url = 'https://bananaspot-249e7-default-rtdb.firebaseio.com/'
@@ -44,7 +44,7 @@ try:
             print("first 30 minutes")
             print(graph)
             print(check30)
-            graph.append(len(boxes))
+            graph.append(SPACES_COUNT-len(boxes))
             if len(graph) >336:
                 graph.pop(0)
             response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Spots%20Remaining.json', json.dumps(graph))
