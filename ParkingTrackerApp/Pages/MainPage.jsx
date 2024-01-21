@@ -278,18 +278,9 @@ const customMapStyle = [
   }
 ];
 
-const MainPage = () => {
+const MainPage = ({ data }) => {
   const navigation = useNavigation();
   const swipeUpDownRef = useRef();
-  
-  // Dummy data for the list items
-  const locations = [
-    { name: 'East Remote', count: 3 },
-    { name: 'West Remote', count: 8 },
-    { name: 'Arts Lot', count: 17 },
-    { name: 'West Core', count: 4 },
-    // ... add more locations if necessary
-  ];
 
   const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
 
@@ -298,7 +289,18 @@ const MainPage = () => {
     navigation.navigate(screenName);
   };
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const locations = data
+    .filter(item => item.name !== "Graphing") // Exclude "Graphing"
+    .map(item => ({
+      name: item.name,
+      count: item.cars !== undefined ? item.cars : 0
+    }));
 
+
+  const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
+  const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;
+  const westRemoteCount = locations.find(item => item.name === 'West Core')?.count;
+  const artLotCount = locations.find(item => item.name === 'West Remote')?.count;
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -314,6 +316,7 @@ const MainPage = () => {
   if (!fontsLoaded) {
     return null; // Or some loading component
   }
+
 
   return (
     <View style={styles.container}>

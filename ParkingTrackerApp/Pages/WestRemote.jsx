@@ -63,6 +63,7 @@ const WestRemote = () => {
             borderRadius: 20,
           }}
         />
+        
       </ScrollView>
       <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
         <Text style={styles.spotsLeft}>Spots Left</Text>
