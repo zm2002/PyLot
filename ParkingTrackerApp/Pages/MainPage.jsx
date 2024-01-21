@@ -5,18 +5,19 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  Animated,
   Dimensions,
+  TouchableOpacity,
+  Modal,
   PanResponder,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import MapView from 'react-native-maps';
-import { useNavigation } from '@react-navigation/native';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
-const darkMapStyle = [
+
+const customMapStyle = [
   {
     "elementType": "geometry",
     "stylers": [
@@ -277,36 +278,7 @@ const darkMapStyle = [
   }
 ];
 
-SplashScreen.preventAutoHideAsync();
-
 const MainPage = () => {
-  const navigation = useNavigation();
-  const [expanded, setExpanded] = useState(false);
-  const listHeightAnim = useRef(new Animated.Value(240)).current; // Initial height for 2 items
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, {
-        dy: listHeightAnim, // Bind dy (delta y) to listHeightAnim
-      }], { useNativeDriver: false }),
-      onPanResponderRelease: (e, gestureState) => {
-        if (gestureState.dy < -100) { // Threshold for expand
-          Animated.spring(listHeightAnim, {
-            toValue: height, // Full height for expanded view
-            useNativeDriver: false,
-          }).start(() => setExpanded(true));
-        } else if (gestureState.dy > 100 && expanded) { // Threshold for collapse
-          Animated.spring(listHeightAnim, {
-            toValue: 240, // Initial height for collapsed view
-            useNativeDriver: false,
-          }).start(() => setExpanded(false));
-        }
-      },
-    })
-  ).current;
-  
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -318,11 +290,22 @@ const MainPage = () => {
 
     loadFonts();
   }, []);
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
-  if (!fontsLoaded) {
-    return null; // Or some loading component
-  }
+  const panResponder = useRef(PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gestureState) => {
+      if (gestureState.dy < -50) { // Detect upward swipe
+        setModalVisible(true);
+      }
+    },
+  })).current;
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  
+
+  // Dummy data for the list items
   const locations = [
     { name: 'East Remote', count: 3 },
     { name: 'West Remote', count: 8 },
@@ -331,6 +314,8 @@ const MainPage = () => {
     // ... add more locations if necessary
   ];
 
+  const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
+
   const navigateToLocation = (locationName) => {
     const screenName = locationName.replace(/\s+/g, '');
     navigation.navigate(screenName);
@@ -338,26 +323,51 @@ const MainPage = () => {
 
   return (
     <View style={styles.container}>
+      <Text> </Text>
+      <MapView
+        style={styles.map2}
+        customMapStyle={customMapStyle}
+        provider={PROVIDER_GOOGLE}
+        region={{
+          latitude: 36.9905,
+          longitude: -122.0584,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        <Marker
+          coordinate={{ latitude: 36.991039, longitude: -122.053130 }}
+          style={{ zIndex: 1 }}
+
+        >
+          <View style={{ backgroundColor: '#000' }}>
+
+            <Image source={require('../assets/pin.png')} style={{ width: 30, height: 35 }} />
+          </View>
+        </Marker>
+
+        <Marker
+          coordinate={{ latitude: 36.991039, longitude: -122.053130 }}
+          style={{ zIndex: 2 }}
+
+        >
+          <View style={{ backgroundColor: '#000', paddingTop: 11, paddingRight: 6 }}>
+
+            <Text style={{ color: "black", position: 'relative', top: -14 }}>2</Text>
+          </View>
+        </Marker>
+
+      </MapView>
       <ScrollView style={styles.scrollView}>
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Banana Spot</Text>
         </View>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <Image source={require('../assets/map.png')} style={styles.map} resizeMode="cover" />
+        <Image source={require('../assets/map.png')} style={styles.map} />
       </ScrollView>
 
-      <MapView
-      style={styles.map}
-      customMapStyle={darkMapStyle}
-      region={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
-      />
-      <Animated.View
-        style={[styles.locationListContainer, { height: listHeightAnim }]}
+      <View
+        style={[styles.locationListContainer, { height: itemHeight * 2 }]}
         {...panResponder.panHandlers}
       >
         <ScrollView style={styles.locationList} contentContainerStyle={styles.locationContent}>
@@ -379,7 +389,40 @@ const MainPage = () => {
             );
           })}
         </ScrollView>
-      </Animated.View>
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.returnButton}
+          onPress={() => setModalVisible(false)}
+        >
+          <Text style={styles.returnButtonText}>Return</Text>
+        </TouchableOpacity>
+        <ScrollView style={styles.fullList}>
+          {locations.map((location, index) => {
+            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textDefault;
+            return (
+              <TouchableOpacity
+                key={index.toString()}
+                style={styles.locationItem}
+                onPress={() => navigateToLocation(location.name)}
+              >
+                <Text style={[styles.locationName, locationTextStyle]}>
+                  {location.name}
+                </Text>
+                <Text style={[styles.locationCount, locationTextStyle]}>
+                  {location.count}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </Modal>
     </View>
   );
 };
@@ -411,12 +454,33 @@ const styles = StyleSheet.create({
     left: -7,
     margin: 10,
   },
+  container: {
+    width: '100%',
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  mapView: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   map: {
     position: 'absolute',
     top: 100,
     width: '100%',
     resizeMode: 'contain',
     height: height * 0.7,
+    zIndex: -1,
+  },
+  map2: {
+    position: 'absolute',
+    top: 100,
+    width: '100%',
+    resizeMode: 'contain',
+    height: height * 0.7,
+    zIndex: 5,
   },
   locationListContainer: {
     position: 'absolute',
@@ -441,30 +505,43 @@ const styles = StyleSheet.create({
   locationName: {
     color: '#fff',
     fontStyle: 'normal',
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
     fontSize: 40,
   },
   locationCount: {
     color: '#fff',
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
     fontSize: 40,
   },
-  textBlue: {
-    color: '#61DBFB',
+  maps: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   textRed: {
     color: 'red',
   },
+  textBlue: {
+    color: '#61DBFB',
+  },
   textDefault: {
-    color: '#fff',
+    color: '#61DBFB',
   },
   modalView: {
-    marginTop: 120,
     flex: 1,
-    backgroundColor: '#333',
+    backgroundColor: '#fff',
   },
   fullList: {
     width: '100%',
+  },
+  returnButton: {
+    padding: 20,
+    backgroundColor: '#61DBFB',
+    alignItems: 'center',
+  },
+  returnButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 

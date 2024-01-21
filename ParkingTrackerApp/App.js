@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainPage from './Pages/MainPage';
 import EastRemotePage from './Pages/EastRemote';
+import LoadingScreen from './Pages/Loading';
+import ProgressBar from './Pages/AppBar';
 // import WestRemotePage from './Pages/WestRemote';
 // import ArtLotPage from './Pages/ArtLot';
 
@@ -15,12 +17,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
-        <Stack.Screen 
-          name="Main" 
-          component={MainPage}
-          options={{
-            headerShown: false, // This hides the header for the MainPage
-          }}
+        <Stack.Screen
+          name="Main"
+          component={LoadingScreen}
+          options={{ headerShown: false }}
         />
         {/* Add more Stack.Screen for each location page */}
         {/* Example: */}
