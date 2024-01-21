@@ -357,6 +357,75 @@ const MainPage = ({ data }) => {
           </View>
         </Marker>
 
+        <Marker
+          coordinate={{ latitude: 36.99918800108781, longitude: -122.06365331795604 }}
+          style={{ zIndex: 1 }}
+
+        >
+          <View style={{ backgroundColor: null }}>
+
+            <Image source={require('../assets/pin.png')} style={{ width: 30, height: 35 }} />
+          </View>
+        </Marker>
+
+        <Marker
+          coordinate={{ latitude: 36.99918800108781, longitude: -122.06365331795604 }}
+          style={{ zIndex: 2 }}
+
+        >
+          <View style={{ backgroundColor: null, paddingTop: 11, paddingRight: 6 }}>
+
+            <Text style={{ color: "black", position: 'relative', top: -14 }}>{westCoreCount}</Text>
+          </View>
+        </Marker>
+
+
+
+        <Marker
+          coordinate={{ latitude: 36.98872017555565, longitude:  -122.06589276907286 }}
+          style={{ zIndex: 1 }}
+
+        >
+          <View style={{ backgroundColor: null }}>
+
+            <Image source={require('../assets/pin.png')} style={{ width: 30, height: 35 }} />
+          </View>
+        </Marker>
+
+        <Marker
+          coordinate={{ latitude: 36.98872017555565, longitude:  -122.06589276907286 }}
+          style={{ zIndex: 2 }}
+
+        >
+          <View style={{ backgroundColor: null, paddingTop: 11, paddingRight: 6 }}>
+
+            <Text style={{ color: "black", position: 'relative', top: -14 }}>{westRemoteCount}</Text>
+          </View>
+        </Marker>
+
+
+        <Marker
+          coordinate={{ latitude: 36.993449083971974, longitude: -122.0615461317995 }}
+          style={{ zIndex: 1 }}
+
+        >
+          <View style={{ backgroundColor: null }}>
+
+            <Image source={require('../assets/pin.png')} style={{ width: 30, height: 35 }} />
+          </View>
+        </Marker>
+
+        <Marker
+          coordinate={{ latitude: 36.993449083971974, longitude: -122.0615461317995 }}
+          style={{ zIndex: 2 }}
+
+        >
+          <View style={{ backgroundColor: null, paddingTop: 11, paddingRight: 6 }}>
+
+            <Text style={{ color: "black", position: 'relative', top: -14}}>{artLotCount}</Text>
+          </View>
+        </Marker>
+
       </MapView>
 
       <View style={styles.banner}>
