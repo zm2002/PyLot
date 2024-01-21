@@ -357,9 +357,9 @@ const MainPage = ({ data }) => {
       </MapView>
 
       <View style={styles.banner}>
-        <Text style={styles.bannerText}>Banana Spot</Text>
+        <Text style={styles.bannerText}>Slug Spot</Text>
       </View>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require('../slugLogo.png')} style={styles.logo} />
       <SwipeUpDown
         swipeHeight={230} 
         ref={swipeUpDownRef}
@@ -406,7 +406,7 @@ const MainPage = ({ data }) => {
         onShowMini={() => console.log('Mini')}
         onShowFull={() => console.log('Full')}
         animation="easeInEaseOut"
-        extraMarginTop={53} // Adjust the top margin to prevent it from going under the banner
+        extraMarginTop={65} // Adjust the top margin to prevent it from going under the banner
       />
     </View>
   );
@@ -435,11 +435,11 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   logo: {
-    width: 50,
-    height: 50,
-    top: -8,
-    left: -10,
-    margin: 10,
+    width: 100,
+    height: 100,
+    position: 'absolute', 
+    top: 30,
+    right: -20,
     zIndex: 10,
   },
   container: {
@@ -514,17 +514,18 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   swipeUpDown: {
-    backgroundColor: 'grey', // This is the background color for the entire swipeable area
+    backgroundColor: '#242424', // This is the background color for the entire swipeable area
   },
   miniItem: {
-    backgroundColor: 'grey', // Set the mini item background color to grey
+    backgroundColor: '#242424', // Set the mini item background color to grey
     padding: 20, // Add some padding around the mini items
     height: 230, // Set the mini item height to half of the screen height
   },
   fullItem: {
-    backgroundColor: 'grey', // Set the full item background color to grey
+    backgroundColor: '#242424', // Set the full item background color to grey
     paddingTop: 20, // Add some padding to the top of the full item
   },
+  // #272727
   // Add an arrow indicator for swipe up
   swipeIndicator: {
     textAlign: 'center',

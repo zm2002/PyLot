@@ -38,7 +38,16 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main">
+      <Stack.Navigator initialRouteName="Main" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#000', // Set your header color here
+        color: '#fff',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTintColor: 'white',
+      }}>
         {/* <Stack.Screen
           name="Main"
           component={LoadingScreen}
