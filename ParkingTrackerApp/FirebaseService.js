@@ -15,11 +15,15 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const rootRef = ref(getDatabase(firebaseApp));
 
-export const fetchDataFromFirebase = (setDataCallback) => {
+export const fetchDataFromFirebase = (setDataCallback, setGraphingDataCallback) => {
   const dataRef = onValue(rootRef, (snapshot) => {
     const newData = snapshot.val();
+
+    // console.log(newData.Graphing.data.Location['Arts Lot']);
     
     setDataCallback(newData);
+
+    setGraphingDataCallback(newData.Graphing.data.Location);
   });
 
   // Return the cleanup function to stop listening when needed

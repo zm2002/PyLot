@@ -25,19 +25,25 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [data, setData] = useState(null);
+  const [graphingData, setGraphingData] = useState(null);
+
 
   useEffect(() => {
-    const cleanupFunction = fetchDataFromFirebase(setData);
+    const cleanupFunction = fetchDataFromFirebase(setData, setGraphingData);
 
     // Cleanup the listener when the component unmounts
     return cleanupFunction;
   }, []);
+
+  const bruh = graphingData['Arts Lot'];
+  console.log(bruh);
 
   const locationsArray = data ? convertJsonToLocationsArray(data) : [];
   const eastRemoteData = locationsArray.find(location => location.name === "East Remote");
   const westRemoteData = locationsArray.find(location => location.name === "West Remote");
   const artsLotData = locationsArray.find(location => location.name === "Arts Lot");
   const westCoreData = locationsArray.find(location => location.name === "West Core");
+
 
 
 
@@ -85,7 +91,7 @@ export default function App() {
           options={{ title: 'Art Lot' }}
         >
           {(props) => {
-            return <ArtsLotPage {...props} parkingData={artsLotData} />;
+            return <ArtsLotPage {...props} parkingData={artsLotData} graphingData={graphingData['Arts Lot']} />;
           }}
         </Stack.Screen>
 

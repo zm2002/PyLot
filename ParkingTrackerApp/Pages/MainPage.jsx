@@ -296,9 +296,6 @@ const MainPage = ({ data }) => {
       count: item.cars !== undefined ? item.cars : 0
     }));
 
-    console.log("inside Mainpage....");
-    console.log(locations);
-
 
   const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
   const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;

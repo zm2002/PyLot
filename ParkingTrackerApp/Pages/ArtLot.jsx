@@ -12,6 +12,10 @@ const data = {
   }]
 };
 
+// catered towards "Art List"
+// list_of_times = Time
+// data -> Spots Remaining
+
 const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientTo: '#fff',
@@ -26,8 +30,11 @@ const chartConfig = {
   }
 };
 
-const ArtLot = ({parkingData}) => {
+const ArtLot = ({parkingData, graphingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
+
+  console.log("inside art lot:");
+  console.log(graphingData);
 
   const { cars, time } = parkingData || {};
 
