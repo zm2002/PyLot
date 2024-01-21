@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
-  Image,
   Text,
   StyleSheet,
-  ScrollView,
   Dimensions,
+  ScrollView,
   TouchableOpacity,
-  Modal,
   PanResponder,
+  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import SwipeUpDown from 'react-native-swipe-up-down';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
@@ -279,6 +279,31 @@ const customMapStyle = [
 ];
 
 const MainPage = ({ data }) => {
+  const navigation = useNavigation();
+  const swipeUpDownRef = useRef();
+
+  const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
+
+  const navigateToLocation = (locationName) => {
+    const screenName = locationName.replace(/\s+/g, '');
+    navigation.navigate(screenName);
+  };
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const locations = data
+    .filter(item => item.name !== "Graphing") // Exclude "Graphing"
+    .map(item => ({
+      name: item.name,
+      count: item.cars !== undefined ? item.cars : 0
+    }));
+
+    console.log("inside Mainpage....");
+    console.log(locations);
+
+
+  const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
+  const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;
+  const westRemoteCount = locations.find(item => item.name === 'West Core')?.count;
+  const artLotCount = locations.find(item => item.name === 'West Remote')?.count;
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -290,52 +315,11 @@ const MainPage = ({ data }) => {
 
     loadFonts();
   }, []);
-  const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
 
+  if (!fontsLoaded) {
+    return null; // Or some loading component
+  }
 
-
-  const panResponder = useRef(PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderMove: (event, gestureState) => {
-      if (gestureState.dy < -50) { // Detect upward swipe
-        setModalVisible(true);
-      }
-    },
-  })).current;
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  
-
-  // // Dummy data for the list items
-  // const locations = [
-  //   { name: 'East Remote', count: 3 },
-  //   { name: 'West Remote', count: 8 },
-  //   { name: 'Arts Lot', count: 17 },
-  //   { name: 'West Core', count: 4 },
-  //   // ... add more locations if necessary
-  // ];
-  const locations = data
-    .filter(item => item.name !== "Graphing") // Exclude "Graphing"
-    .map(item => ({
-      name: item.name,
-      count: item.cars !== undefined ? item.cars : 0
-    }));
-
-  const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
-  const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;
-  const westRemoteCount = locations.find(item => item.name === 'West Core')?.count;
-  const artLotCount = locations.find(item => item.name === 'West Remote')?.count;
-
-  const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
-
-  const navigateToLocation = (locationName) => {
-    // Convert the location name to the format used in navigation
-    // Example: 'East Remote' -> 'EastRemote'
-    const screenName = locationName.replace(/\s+/g, '');
-    setModalVisible(false); // Close the modal
-    navigation.navigate(screenName); // Navigate to the new screen
-  };
 
   return (
     <View style={styles.container}>
@@ -375,67 +359,58 @@ const MainPage = ({ data }) => {
 
       </MapView>
 
-        <View style={styles.banner}>
-          <Text style={styles.bannerText}>Banana Spot</Text>
-        </View>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
-
-      <View
-        style={[styles.locationListContainer, { height: itemHeight * 2 }]}
-        {...panResponder.panHandlers}
-      >
-        <ScrollView style={styles.locationList} contentContainerStyle={styles.locationContent}>
-          {locations.map((location, index) => {
-            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textBlue;
-            return (
+      <View style={styles.banner}>
+        <Text style={styles.bannerText}>Slug Spot</Text>
+      </View>
+      <Image source={require('../slugLogo.png')} style={styles.logo} />
+      <SwipeUpDown
+        swipeHeight={230} 
+        ref={swipeUpDownRef}
+        itemMini={() => (
+          <View style={styles.miniItem}>
+            {/* Mini view content - Showing two locations */}
+            {locations.slice(0, 2).map((location, index) => (
               <TouchableOpacity
-                key={index.toString()}
-                style={styles.locationItem}
+                key={index}
                 onPress={() => navigateToLocation(location.name)}
+                style={styles.locationItem}
               >
-                <Text style={[styles.locationName, locationTextStyle]}>
+                <Text style={[styles.locationName, location.count < 5 ? styles.textRed : styles.textBlue]}>
                   {location.name}
                 </Text>
-                <Text style={[styles.locationCount, locationTextStyle]}>
+                <Text style={[styles.locationCount, location.count < 5 ? styles.textRed : styles.textBlue]}>
                   {location.count}
                 </Text>
               </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.returnButton}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text style={styles.returnButtonText}>Return</Text>
-        </TouchableOpacity>
-        <ScrollView style={styles.fullList}>
-        {locations.map((location, index) => {
-            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textBlue;
-            return (
-            <TouchableOpacity
-              key={index}
-              style={styles.locationItem}
-              onPress={() => navigateToLocation(location.name)}
-            >
-              <Text style={[styles.locationName, locationTextStyle]}>
-                {location.name}
-              </Text>
-              <Text style={[styles.locationCount, locationTextStyle]}>
-                {location.count}
-              </Text>
-            </TouchableOpacity>
-          )})}
-        </ScrollView>
-      </Modal>
+            ))}
+          </View>
+        )}
+        itemFull={() => (
+          <ScrollView style={styles.fullItem}>
+            {/* Full view content - Showing all locations */}
+            {locations.map((location, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigateToLocation(location.name)}
+                style={styles.locationItem}
+              >
+                <Text style={[styles.locationName, location.count < 5 ? styles.textRed : styles.textBlue]}>
+                  {location.name}
+                </Text>
+                <Text style={[styles.locationCount, location.count < 5 ? styles.textRed : styles.textBlue]}>
+                  {location.count}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
+        disablePressToShow={false} // Allows press to show full view
+        style={styles.swipeUpDown}
+        onShowMini={() => console.log('Mini')}
+        onShowFull={() => console.log('Full')}
+        animation="easeInEaseOut"
+        extraMarginTop={65} // Adjust the top margin to prevent it from going under the banner
+      />
     </View>
   );
 };
@@ -451,7 +426,7 @@ const styles = StyleSheet.create({
   },
   banner: {
     backgroundColor: '#000',
-    paddingVertical: 5,
+    paddingVertical: 3,
     zIndex: 11,
   },
   bannerText: {
@@ -463,11 +438,11 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   logo: {
-    width: 50,
-    height: 50,
-    top: -8,
-    left: -10,
-    margin: 10,
+    width: 100,
+    height: 100,
+    position: 'absolute', 
+    top: 30,
+    right: -20,
     zIndex: 10,
   },
   container: {
@@ -499,7 +474,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
   },
   locationContent: {
-    paddingBottom: 40,
+    paddingBottom: 30,
   },
   locationItem: {
     flexDirection: 'row',
@@ -513,12 +488,12 @@ const styles = StyleSheet.create({
   locationName: {
     color: '#fff',
     fontStyle: 'normal',
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat',
     fontSize: 40,
   },
   locationCount: {
     color: '#fff',
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat',
     fontSize: 40,
   },
   maps: {
@@ -540,6 +515,25 @@ const styles = StyleSheet.create({
   },
   fullList: {
     width: '100%',
+  },
+  swipeUpDown: {
+    backgroundColor: '#242424', // This is the background color for the entire swipeable area
+  },
+  miniItem: {
+    backgroundColor: '#242424', // Set the mini item background color to grey
+    padding: 20, // Add some padding around the mini items
+    height: 230, // Set the mini item height to half of the screen height
+  },
+  fullItem: {
+    backgroundColor: '#242424', // Set the full item background color to grey
+    paddingTop: 20, // Add some padding to the top of the full item
+  },
+  // #272727
+  // Add an arrow indicator for swipe up
+  swipeIndicator: {
+    textAlign: 'center',
+    padding: 10,
+    color: 'white',
   },
   returnButton: {
     padding: 20,

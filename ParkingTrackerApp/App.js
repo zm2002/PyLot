@@ -9,6 +9,7 @@ import WestRemotePage from './Pages/WestRemote';
 import LoadingScreen from './Pages/Loading';
 import ArtsLotPage from './Pages/ArtLot';
 import WestCorePage from './Pages/WestCore';
+// import EastRemoteSwipe from './Pages/EastRemoteSwipe';
 
 // Firebase imports
 import { convertJsonToLocationsArray } from './parkingDataConversion';
@@ -42,7 +43,16 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main">
+      <Stack.Navigator initialRouteName="Main" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#000', // Set your header color here
+        color: '#fff',
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTintColor: 'white',
+      }}>
         {/* <Stack.Screen
           name="Main"
           component={LoadingScreen}

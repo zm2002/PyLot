@@ -10,6 +10,8 @@ const LoadingScreen = ({locationsArray}) => {
       setIsLoading(false);
     }, 2000); // Set the loading screen duration to 2 seconds
 
+    console.log(locationsArray);
+
     return () => clearTimeout(timer);
   }, []);
 
