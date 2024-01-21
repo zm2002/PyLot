@@ -19,7 +19,6 @@ export const fetchDataFromFirebase = (setDataCallback, setGraphingDataCallback) 
   const dataRef = onValue(rootRef, (snapshot) => {
     const newData = snapshot.val();
 
-    // console.log(newData.Graphing.data.Location['Arts Lot']);
     
     setDataCallback(newData);
 

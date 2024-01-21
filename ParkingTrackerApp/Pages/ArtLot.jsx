@@ -26,19 +26,28 @@ const chartConfig = {
 const ArtLot = ({parkingData, graphingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
 
-  console.log("inside art lot:");
-  console.log(graphingData);
+  // console.log("inside art lot:");
+  // console.log(graphingData);
 
-  console.log(graphingData["Spots Remaining"]);
+  // console.log(graphingData["Spots Remaining"]);
+
+  const graphList = graphingData["Spots Remaining"];
+  
+
+  console.log(graphList)
 
   const graphDataToShow = {
     labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
     datasets: [{
-      data: graphingData["Spots Remaining"]
+      data: graphList
     }]
   };
 
-  
+  const numberList = graphList.map(Number);
+  const minValue = Math.min(...numberList);
+  // Find the index of the minimum value
+  const minIndex = numberList.indexOf(minValue);
+  const minTime = graphingData["Time"][minIndex];  
 
   const { cars, time } = parkingData || {};
 
@@ -90,7 +99,7 @@ const ArtLot = ({parkingData, graphingData}) => {
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>
-            <Text style={styles.bestTime}>11:00AM</Text>
+            <Text style={styles.bestTime}>{formatTime(minTime)}</Text>
           </>
         )}
       </View>
