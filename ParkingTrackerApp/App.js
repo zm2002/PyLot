@@ -27,13 +27,18 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [data, setData] = useState(null);
+  const [graphingData, setGraphingData] = useState({});
+
 
   useEffect(() => {
-    const cleanupFunction = fetchDataFromFirebase(setData);
+    const cleanupFunction = fetchDataFromFirebase(setData, setGraphingData);
 
     // Cleanup the listener when the component unmounts
     return cleanupFunction;
   }, []);
+
+  const bruh = graphingData;
+  console.log(bruh);
 
   const locationsArray = data ? convertJsonToLocationsArray(data) : [];
   const eastRemoteData = locationsArray.find(location => location.name === "East Remote");
@@ -41,7 +46,8 @@ export default function App() {
   const artsLotData = locationsArray.find(location => location.name === "Arts Lot");
   const westCoreData = locationsArray.find(location => location.name === "West Core");
 
-
+  console.log("west remote:")
+  console.log(graphingData['West Remote'])
 
   return (
     <NavigationContainer>
@@ -84,7 +90,7 @@ export default function App() {
           options={{ title: 'East Remote', headerBackTitle: null }}
         >
           {(props) => {
-            return <EastRemotePage {...props} parkingData={eastRemoteData} />;
+            return <EastRemotePage {...props} parkingData={eastRemoteData} graphingData={graphingData['East Remote']}/>;
           }}
         </Stack.Screen>
 
@@ -93,7 +99,7 @@ export default function App() {
           options={{ title: 'West Remote', headerBackTitle: null }}
         >
           {(props) => {
-            return <WestRemotePage {...props} parkingData={westRemoteData} />;
+            return <WestRemotePage {...props} parkingData={westRemoteData} graphingData={graphingData['West Remote']}/>;
           }}
         </Stack.Screen>
 
@@ -102,7 +108,7 @@ export default function App() {
           options={{ title: 'Art Lot' }}
         >
           {(props) => {
-            return <ArtsLotPage {...props} parkingData={artsLotData} />;
+            return <ArtsLotPage {...props} parkingData={artsLotData} graphingData={graphingData['Arts Lot']} />;
           }}
         </Stack.Screen>
 
@@ -111,7 +117,7 @@ export default function App() {
           options={{ title: 'West Core' }}
         >
           {(props) => {
-            return <WestCorePage {...props} parkingData={westCoreData} />;
+            return <WestCorePage {...props} parkingData={westCoreData} graphingData={graphingData['West Core']}/>;
           }}
         </Stack.Screen>
 

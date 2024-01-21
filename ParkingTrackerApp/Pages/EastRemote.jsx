@@ -5,12 +5,12 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 const screenWidth = Dimensions.get('window').width;
 
-const data = {
-  labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
-  datasets: [{
-    data: [20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60,70]
-  }]
-};
+// const data = {
+//   labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
+//   datasets: [{
+//     data: [20, 15, 10, 22, 15, 5, 20, 30, 40, 50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40, 50, 60, 70]
+//   }]
+// };
 
 const chartConfig = {
   backgroundGradientFrom: '#fff',
@@ -26,11 +26,29 @@ const chartConfig = {
   }
 };
 
-const EastRemote = ({parkingData}) => {
+const EastRemote = ({parkingData, graphingData}) => {
+  const swipeUpDownRef = useRef();
   const [isBottomReached, setIsBottomReached] = useState(false);
 
-   // Function to format time in AM/PM
-   const formatTime = (inputTime) => {
+  const graphList = graphingData["Spots Remaining"];
+  
+  const graphDataToShow = {
+    labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
+    datasets: [{
+      data: graphList
+    }]
+  };
+
+  const numberList = graphList.map(Number);
+  const minValue = Math.min(...numberList);
+  // Find the index of the minimum value
+  const minIndex = numberList.indexOf(minValue);
+  const minTime = graphingData["Time"][minIndex]; 
+
+  const { cars, time } = parkingData || {};
+
+  // Function to format time in AM/PM
+  const formatTime = (inputTime) => {
     const formattedTime = new Date(`2022-01-20T${inputTime}`);
     return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   };

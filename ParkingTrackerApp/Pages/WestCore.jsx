@@ -5,13 +5,6 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 const screenWidth = Dimensions.get('window').width;
 
-const data = {
-  labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
-  datasets: [{
-    data: [20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60,70]
-  }]
-};
-
 const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientTo: '#fff',
@@ -26,8 +19,23 @@ const chartConfig = {
   }
 };
 
-const WestCore = ({parkingData}) => {
+const WestCore = ({parkingData, graphingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
+
+  const graphList = graphingData["Spots Remaining"];
+  
+  const graphDataToShow = {
+    labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
+    datasets: [{
+      data: graphList
+    }]
+  };
+
+  const numberList = graphList.map(Number);
+  const minValue = Math.min(...numberList);
+  // Find the index of the minimum value
+  const minIndex = numberList.indexOf(minValue);
+  const minTime = graphingData["Time"][minIndex];  
 
   const { cars, time } = parkingData || {};
 
@@ -58,7 +66,7 @@ const WestCore = ({parkingData}) => {
         scrollEventThrottle={16}
       >
         <LineChart
-          data={data}
+          data={graphDataToShow}
           width={screenWidth}
           height={360}
           chartConfig={chartConfig}
@@ -79,7 +87,7 @@ const WestCore = ({parkingData}) => {
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>
-            <Text style={styles.bestTime}>11:00AM</Text>
+            <Text style={styles.bestTime}>{formatTime(minTime)}</Text>
           </>
         )}
       </View>
