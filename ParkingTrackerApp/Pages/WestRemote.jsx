@@ -33,7 +33,7 @@ const WestRemote = ({parkingData, graphingData}) => {
   console.log(graphList);
   
   const graphDataToShow = {
-    labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
+    labels: ['1/15', '1/16', '1/17', '1/18', '1/19', '1/20', '1/21'],
     datasets: [{
       data: graphList
     }]
@@ -41,7 +41,7 @@ const WestRemote = ({parkingData, graphingData}) => {
 
 
   const numberList = graphList.map(Number);
-  const minValue = Math.min(...numberList);
+  const minValue = Math.max(...numberList);
 
   console.log("bruh");
   // Find the index of the minimum value
