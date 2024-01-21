@@ -26,7 +26,7 @@ const chartConfig = {
   }
 };
 
-const WestRemote = () => {
+const ArtLot = () => {
   const [isBottomReached, setIsBottomReached] = useState(false);
 
   const handleScroll = (event) => {
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WestRemote;
+export default ArtLot;
