@@ -26,7 +26,7 @@ try:
     while(True): 
         graph = db.reference('Graphing/data/Location/West Remote/Spots Remaining').get()
         graph = list(graph)
-        times = db.reference('Graphing/data/Location/West Remote/Times').get()
+        times = db.reference('Graphing/data/Location/West Remote/Time').get()
         times = list(times)
         check30 = db.reference('Graphing/data/Location/West Remote/30Check').get()
         # Capture the video frame 
@@ -50,18 +50,18 @@ try:
             if len(graph) >336:
                 graph.pop(0)
             response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Spots%20Remaining.json', json.dumps(graph))
-            response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Times.json', json.dumps(times))
+            response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Time.json', json.dumps(times))
             check30 = True
             response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/30Check.json', json.dumps(check30))
         elif check30 == True and datetime.now().minute >30 and datetime.now().minute <=59:
             print("second 30 minutes")
             check30 = False
-            graph.append(len(boxes))
+            graph.append(str(len(boxes)))
             times.append(datetime.now().strftime("%H:%M:%S"))
             if len(graph) >336:
                 graph.pop(0)
             response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Spots%20Remaining.json', json.dumps(graph))
-            response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Times.json', json.dumps(times))
+            response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/Time.json', json.dumps(times))
             response = requests.put(f'{url}/Graphing/data/Location/West%20Remote/30Check.json', json.dumps(check30))
 
         
@@ -75,9 +75,9 @@ try:
         now = datetime.now()
 
         current_time = now.strftime("%H:%M:%S")
-        dic = {'cars': len(boxes), 'time': current_time}
+        dic = {'cars': 8-len(boxes), 'time': current_time}
         print("Current Time =", current_time)
-        response = requests.put(f'{url}/West_Core/data.json', json.dumps(dic))
+        response = requests.put(f'{url}/West_Remote/data.json', str(json.dumps(dic)))
         time.sleep(10)
 except KeyboardInterrupt:
     pass
