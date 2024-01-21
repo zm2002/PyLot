@@ -1,15 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, Dimensions, TouchableOpacity, TouchableWithoutFeedback, } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
-import SwipeUpDown from 'react-native-swipe-up-down';
 
 const screenWidth = Dimensions.get('window').width;
 
 const data = {
   labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
   datasets: [{
-    data: [20, 15, 10, 22, 15, 5, 20, 30, 40, 50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40, 50, 60, 70]
+    data: [20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60,70]
   }]
 };
 
@@ -28,23 +27,21 @@ const chartConfig = {
 };
 
 const EastRemote = ({parkingData}) => {
-  const swipeUpDownRef = useRef();
   const [isBottomReached, setIsBottomReached] = useState(false);
 
-  const { cars, time } = parkingData || {};
-
-  // Function to format time in AM/PM
-  const formatTime = (inputTime) => {
+   // Function to format time in AM/PM
+   const formatTime = (inputTime) => {
     const formattedTime = new Date(`2022-01-20T${inputTime}`);
     return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   };
 
+  const { cars, time } = parkingData || {};
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const contentHeight = event.nativeEvent.contentSize.height;
     const height = event.nativeEvent.layoutMeasurement.height;
-
+    
     // Check if the bottom has been reached
     if (offsetY >= contentHeight - height - 40) { // 20 is a buffer to start showing the best time a bit before the bottom
       setIsBottomReached(true);
@@ -54,66 +51,39 @@ const EastRemote = ({parkingData}) => {
   };
 
   return (
-    <View style={styles.containerScroll}>
-      <LineChart
-        data={data}
-        width={screenWidth}
-        height={360}
-        chartConfig={chartConfig}
-        fromZero={true}
-        bezier
-        style={{
-          position: 'absolute',
-          top: 10,
-          marginVertical: 0,
-          borderRadius: 20,
-        }}>
-      </LineChart>
-      <SwipeUpDown
-        ref={swipeUpDownRef}
-        itemMini={(show) => (
-          <View style={[styles.miniItem, { alignItems: 'center', justifyContent: 'center' }]}>
-            <View
-              style={{
-                backgroundColor: "#242424",
-                height: 300,
-              }}>
-              <Text style={styles.spotsLeft}>Spots Left</Text>
-              <Text style={styles.spotsNumber}>{cars}</Text>
-              <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
-            </View>
-          </View>
+    <View style={styles.container}>
+      <ScrollView 
+        style={styles.scrollContainer}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+      >
+        <LineChart
+          data={data}
+          width={screenWidth}
+          height={360}
+          chartConfig={chartConfig}
+          fromZero={true}
+          bezier
+          style={{
+            position: 'absolute',
+            top: 10,
+            marginVertical: 0,
+            borderRadius: 20,
+          }}
+        />
+        
+      </ScrollView>
+      <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
+        <Text style={styles.spotsLeft}>Spots Left</Text>
+        <Text style={styles.spotsNumber}>{cars}</Text>
+        <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
+        {isBottomReached && (
+          <>
+            <Text style={styles.bestTimeText}>Best time to park here today</Text>
+            <Text style={styles.bestTime}>11:00AM</Text>
+          </>
         )}
-        itemFull={(close) => (
-          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <View
-                style={{
-                  backgroundColor: "#242424",
-                  height: 300,
-                }}>
-                <Text style={[styles.spotsLeft, styles.align]}>Spots Left</Text>
-                <Text style={styles.spotsNumber}>{cars}</Text>
-                <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
-              </View>
-              <View
-                style={{
-                  backgroundColor: "#2F2F2F",
-                  height: 200,
-                }}>
-                <Text style={styles.bestTimeText}>Best time to park here today</Text>
-                <Text style={styles.bestTime}>1:00PM</Text>
-              </View>
-            </View>
-            {/* </TouchableWithoutFeedback> */}
-          </ScrollView>
-        )}
-        animation="linear"
-        extraMarginTop={4}
-        swipeHeight={400}
-        disablePressToShow={true} // Press item mini to show full
-        style={{ backgroundColor: "#2F2F2F" }} // style for swipe
-      />
+      </View>
     </View>
   );
 };
@@ -147,42 +117,34 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     paddingTop: 30, // Initial padding
-    paddingBottom: 10, // Initial padding
+    paddingBottom: 90, // Initial padding
   },
   expandedContainer: {
-    paddingBottom: 80, // You can adjust this value as needed
+    paddingBottom: 90, // You can adjust this value as needed
   },
   spotsLeft: {
-    position: 'absolute',
-    alignItems: 'center',
     color: '#fff',
-    fontSize: 18,
+    fontSize: 30,
   },
   spotsNumber: {
     color: '#FFD700',
-    fontSize: 48,
+    fontSize: 56,
     fontWeight: 'bold',
     marginVertical: 10,
   },
   lastUpdated: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 20,
   },
   bestTimeText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 24,
   },
   bestTime: {
     color: '#FFD700',
-    fontSize: 32,
+    fontSize: 38,
     fontWeight: 'bold',
-  },
-  containerScroll: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF",
   },
 });
 

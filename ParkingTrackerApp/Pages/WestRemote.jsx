@@ -117,33 +117,33 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     paddingTop: 30, // Initial padding
-    paddingBottom: 10, // Initial padding
+    paddingBottom: 90, // Initial padding
   },
   expandedContainer: {
-    paddingBottom: 80, // You can adjust this value as needed
+    paddingBottom: 90, // You can adjust this value as needed
   },
   spotsLeft: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 30,
   },
   spotsNumber: {
     color: '#FFD700',
-    fontSize: 48,
+    fontSize: 56,
     fontWeight: 'bold',
     marginVertical: 10,
   },
   lastUpdated: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 20,
   },
   bestTimeText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 24,
   },
   bestTime: {
     color: '#FFD700',
-    fontSize: 32,
+    fontSize: 38,
     fontWeight: 'bold',
   },
 });
