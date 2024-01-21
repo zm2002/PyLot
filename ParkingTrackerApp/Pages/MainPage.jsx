@@ -302,8 +302,9 @@ const MainPage = ({ data }) => {
 
   const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
   const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;
-  const westRemoteCount = locations.find(item => item.name === 'West Core')?.count;
-  const artLotCount = locations.find(item => item.name === 'West Remote')?.count;
+  const westRemoteCount = locations.find(item => item.name === 'West Remote')?.count;
+  const artLotCount = locations.find(item => item.name === 'Arts Lot')?.count;
+
     useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
