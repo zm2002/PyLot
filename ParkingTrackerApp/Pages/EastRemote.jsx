@@ -97,7 +97,7 @@ const EastRemote = ({parkingData, graphingData}) => {
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>
-            <Text style={styles.bestTime}>11:00AM</Text>
+            <Text style={styles.bestTime}>{formatTime(minTime)}</Text>
           </>
         )}
       </View>
