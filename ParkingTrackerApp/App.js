@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainPage from './Pages/MainPage';
@@ -7,11 +7,22 @@ import EastRemotePage from './Pages/EastRemote';
 // import WestRemotePage from './Pages/WestRemote';
 // import ArtLotPage from './Pages/ArtLot';
 
+import { fetchDataFromFirebase } from './FirebaseService';
+
 // Import other location pages here
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const cleanupFunction = fetchDataFromFirebase(setData);
+
+    // Cleanup the listener when the component unmounts
+    return cleanupFunction;
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
