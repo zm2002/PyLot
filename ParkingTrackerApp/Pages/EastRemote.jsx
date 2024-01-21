@@ -57,7 +57,9 @@ const EastRemote = () => {
           fromZero={true}
           bezier
           style={{
-            marginVertical: 120,
+            position: 'absolute',
+            top: 10,
+            marginVertical: 0,
             borderRadius: 20,
           }}
         />
