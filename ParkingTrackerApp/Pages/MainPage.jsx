@@ -340,7 +340,7 @@ const MainPage = () => {
           style={{ zIndex: 1 }}
 
         >
-          <View style={{ backgroundColor: '#000' }}>
+          <View style={{ backgroundColor: null }}>
 
             <Image source={require('../assets/pin.png')} style={{ width: 30, height: 35 }} />
           </View>
@@ -351,7 +351,7 @@ const MainPage = () => {
           style={{ zIndex: 2 }}
 
         >
-          <View style={{ backgroundColor: '#000', paddingTop: 11, paddingRight: 6 }}>
+          <View style={{ backgroundColor: null, paddingTop: 11, paddingRight: 6 }}>
 
             <Text style={{ color: "black", position: 'relative', top: -14 }}>2</Text>
           </View>
