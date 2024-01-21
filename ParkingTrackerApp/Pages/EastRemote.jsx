@@ -6,16 +6,24 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 const screenWidth = Dimensions.get('window').width;
 
 const data = {
-  labels: ['10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
+  labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
   datasets: [{
-    data: [2, 5, 10, 22, 15, 5]
+    data: [20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60,70]
   }]
 };
 
 const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientTo: '#fff',
-  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+  color: (opacity = 30) => `rgba(0, 150, 253, ${opacity})`,
+  labelColor: (opacity = 100) => `rgba(0, 100, 253, ${opacity})`,
+  strokeWidth: 3, // optional, default 3
+  verticleOffset: 20,
+  propsForDots: {
+    r: '6',
+    strokeWidth: '1',
+    stroke: '#0060ffd9'
+  }
 };
 
 const EastRemote = () => {
@@ -46,7 +54,12 @@ const EastRemote = () => {
           width={screenWidth}
           height={360}
           chartConfig={chartConfig}
+          fromZero={true}
           bezier
+          style={{
+            marginVertical: 120,
+            borderRadius: 20,
+          }}
         />
       </ScrollView>
       <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
