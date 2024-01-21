@@ -8,6 +8,7 @@ import WestRemotePage from './Pages/WestRemote';
 import LoadingScreen from './Pages/Loading';
 import ArtsLotPage from './Pages/ArtLot';
 import WestCorePage from './Pages/WestCore';
+import EastRemoteSwipe from './Pages/EastRemoteSwipe';
 
 import ProgressBar from './Pages/AppBar';
 // import WestRemotePage from './Pages/WestRemote';

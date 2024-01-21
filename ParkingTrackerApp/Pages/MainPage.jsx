@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
-  Image,
   Text,
   StyleSheet,
-  ScrollView,
   Dimensions,
+  ScrollView,
   TouchableOpacity,
-  Modal,
   PanResponder,
+  Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import SwipeUpDown from 'react-native-swipe-up-down';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
@@ -279,32 +279,9 @@ const customMapStyle = [
 ];
 
 const MainPage = () => {
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        'Montserrat': require('../assets/Montserrat/static/Montserrat-SemiBold.ttf'), // Replace with the correct path
-      });
-      setFontsLoaded(true);
-      SplashScreen.hideAsync(); // Hide the splash screen after fonts are loaded
-    }
-
-    loadFonts();
-  }, []);
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const panResponder = useRef(PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderMove: (event, gestureState) => {
-      if (gestureState.dy < -50) { // Detect upward swipe
-        setModalVisible(true);
-      }
-    },
-  })).current;
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
+  const swipeUpDownRef = useRef();
   
-
   // Dummy data for the list items
   const locations = [
     { name: 'East Remote', count: 3 },
@@ -317,12 +294,26 @@ const MainPage = () => {
   const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
 
   const navigateToLocation = (locationName) => {
-    // Convert the location name to the format used in navigation
-    // Example: 'East Remote' -> 'EastRemote'
     const screenName = locationName.replace(/\s+/g, '');
-    setModalVisible(false); // Close the modal
-    navigation.navigate(screenName); // Navigate to the new screen
+    navigation.navigate(screenName);
   };
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Montserrat': require('../assets/Montserrat/static/Montserrat-SemiBold.ttf'), // Replace with the correct path
+      });
+      setFontsLoaded(true);
+      SplashScreen.hideAsync(); // Hide the splash screen after fonts are loaded
+    }
+
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // Or some loading component
+  }
 
   return (
     <View style={styles.container}>
@@ -362,67 +353,58 @@ const MainPage = () => {
 
       </MapView>
 
-        <View style={styles.banner}>
-          <Text style={styles.bannerText}>Banana Spot</Text>
-        </View>
-        <Image source={require('../assets/logo.png')} style={styles.logo} />
-
-      <View
-        style={[styles.locationListContainer, { height: itemHeight * 2 }]}
-        {...panResponder.panHandlers}
-      >
-        <ScrollView style={styles.locationList} contentContainerStyle={styles.locationContent}>
-          {locations.map((location, index) => {
-            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textBlue;
-            return (
+      <View style={styles.banner}>
+        <Text style={styles.bannerText}>Banana Spot</Text>
+      </View>
+      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <SwipeUpDown
+        swipeHeight={230} 
+        ref={swipeUpDownRef}
+        itemMini={() => (
+          <View style={styles.miniItem}>
+            {/* Mini view content - Showing two locations */}
+            {locations.slice(0, 2).map((location, index) => (
               <TouchableOpacity
-                key={index.toString()}
-                style={styles.locationItem}
+                key={index}
                 onPress={() => navigateToLocation(location.name)}
+                style={styles.locationItem}
               >
-                <Text style={[styles.locationName, locationTextStyle]}>
+                <Text style={[styles.locationName, location.count < 5 ? styles.textRed : styles.textBlue]}>
                   {location.name}
                 </Text>
-                <Text style={[styles.locationCount, locationTextStyle]}>
+                <Text style={[styles.locationCount, location.count < 5 ? styles.textRed : styles.textBlue]}>
                   {location.count}
                 </Text>
               </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.returnButton}
-          onPress={() => setModalVisible(false)}
-        >
-          <Text style={styles.returnButtonText}>Return</Text>
-        </TouchableOpacity>
-        <ScrollView style={styles.fullList}>
-        {locations.map((location, index) => {
-            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textBlue;
-            return (
-            <TouchableOpacity
-              key={index}
-              style={styles.locationItem}
-              onPress={() => navigateToLocation(location.name)}
-            >
-              <Text style={[styles.locationName, locationTextStyle]}>
-                {location.name}
-              </Text>
-              <Text style={[styles.locationCount, locationTextStyle]}>
-                {location.count}
-              </Text>
-            </TouchableOpacity>
-          )})}
-        </ScrollView>
-      </Modal>
+            ))}
+          </View>
+        )}
+        itemFull={() => (
+          <ScrollView style={styles.fullItem}>
+            {/* Full view content - Showing all locations */}
+            {locations.map((location, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigateToLocation(location.name)}
+                style={styles.locationItem}
+              >
+                <Text style={[styles.locationName, location.count < 5 ? styles.textRed : styles.textBlue]}>
+                  {location.name}
+                </Text>
+                <Text style={[styles.locationCount, location.count < 5 ? styles.textRed : styles.textBlue]}>
+                  {location.count}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
+        disablePressToShow={false} // Allows press to show full view
+        style={styles.swipeUpDown}
+        onShowMini={() => console.log('Mini')}
+        onShowFull={() => console.log('Full')}
+        animation="easeInEaseOut"
+        extraMarginTop={53} // Adjust the top margin to prevent it from going under the banner
+      />
     </View>
   );
 };
@@ -438,7 +420,7 @@ const styles = StyleSheet.create({
   },
   banner: {
     backgroundColor: '#000',
-    paddingVertical: 5,
+    paddingVertical: 3,
     zIndex: 11,
   },
   bannerText: {
@@ -486,7 +468,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
   },
   locationContent: {
-    paddingBottom: 40,
+    paddingBottom: 30,
   },
   locationItem: {
     flexDirection: 'row',
@@ -500,12 +482,12 @@ const styles = StyleSheet.create({
   locationName: {
     color: '#fff',
     fontStyle: 'normal',
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat',
     fontSize: 40,
   },
   locationCount: {
     color: '#fff',
-    // fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat',
     fontSize: 40,
   },
   maps: {
@@ -527,6 +509,24 @@ const styles = StyleSheet.create({
   },
   fullList: {
     width: '100%',
+  },
+  swipeUpDown: {
+    backgroundColor: 'grey', // This is the background color for the entire swipeable area
+  },
+  miniItem: {
+    backgroundColor: 'grey', // Set the mini item background color to grey
+    padding: 20, // Add some padding around the mini items
+    height: 230, // Set the mini item height to half of the screen height
+  },
+  fullItem: {
+    backgroundColor: 'grey', // Set the full item background color to grey
+    paddingTop: 20, // Add some padding to the top of the full item
+  },
+  // Add an arrow indicator for swipe up
+  swipeIndicator: {
+    textAlign: 'center',
+    padding: 10,
+    color: 'white',
   },
   returnButton: {
     padding: 20,
