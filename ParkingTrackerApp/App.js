@@ -6,7 +6,7 @@ import MainPage from './Pages/MainPage';
 import EastRemotePage from './Pages/EastRemote';
 import WestRemotePage from './Pages/WestRemote';
 import LoadingScreen from './Pages/Loading';
-import ArtLotPage from './Pages/ArtLot';
+import ArtsLotPage from './Pages/ArtLot';
 import WestCorePage from './Pages/WestCore';
 
 import ProgressBar from './Pages/AppBar';
@@ -30,7 +30,7 @@ export default function App() {
         {/* Example: */}
         {<Stack.Screen name="EastRemote" component={EastRemotePage} options={{ title: 'East Remote' }} />}
         {<Stack.Screen name="WestRemote" component={WestRemotePage} options={{ title: 'West Remote' }}/>}
-        {<Stack.Screen name="ArtLot" component={ArtLotPage} options={{ title: 'Art Lot' }}/>}
+        {<Stack.Screen name="ArtsLot" component={ArtsLotPage} options={{ title: 'Arts Lot' }}/>}
         {<Stack.Screen name="WestCore" component={WestCorePage} options={{ title: 'West Core' }}/>}
       </Stack.Navigator>
       <StatusBar style="auto" />
