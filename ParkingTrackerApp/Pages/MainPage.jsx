@@ -293,6 +293,8 @@ const MainPage = ({ data }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
+
+
   const panResponder = useRef(PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gestureState) => {
@@ -319,6 +321,11 @@ const MainPage = ({ data }) => {
       name: item.name,
       count: item.cars !== undefined ? item.cars : 0
     }));
+
+  const westCoreCount = locations.find(item => item.name === 'West Core')?.count; // by baskin
+  const eastRemoteCount = locations.find(item => item.name === 'East Remote')?.count;
+  const westRemoteCount = locations.find(item => item.name === 'West Core')?.count;
+  const artLotCount = locations.find(item => item.name === 'West Remote')?.count;
 
   const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
 
@@ -362,7 +369,7 @@ const MainPage = ({ data }) => {
         >
           <View style={{ backgroundColor: null, paddingTop: 11, paddingRight: 6 }}>
 
-            <Text style={{ color: "black", position: 'relative', top: -14 }}>2</Text>
+            <Text style={{ color: "black", position: 'relative', top: -14 }}>{eastRemoteCount}</Text>
           </View>
         </Marker>
 

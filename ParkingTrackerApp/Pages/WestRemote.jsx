@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
@@ -26,8 +26,16 @@ const chartConfig = {
   }
 };
 
-const WestRemote = () => {
+const WestRemote = ({parkingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
+
+   // Function to format time in AM/PM
+   const formatTime = (inputTime) => {
+    const formattedTime = new Date(`2022-01-20T${inputTime}`);
+    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  };
+
+  const { cars, time } = parkingData || {};
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -66,8 +74,8 @@ const WestRemote = () => {
       </ScrollView>
       <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
         <Text style={styles.spotsLeft}>Spots Left</Text>
-        <Text style={styles.spotsNumber}>8</Text>
-        <Text style={styles.lastUpdated}>Last Updated: 7:52:15pm</Text>
+        <Text style={styles.spotsNumber}>{cars}</Text>
+        <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>

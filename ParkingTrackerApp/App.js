@@ -34,6 +34,11 @@ export default function App() {
 
   const locationsArray = data ? convertJsonToLocationsArray(data) : [];
   const eastRemoteData = locationsArray.find(location => location.name === "East Remote");
+  const westRemoteData = locationsArray.find(location => location.name === "West Remote");
+  const artsLotData = locationsArray.find(location => location.name === "Arts Lot");
+  const westCoreData = locationsArray.find(location => location.name === "West Core");
+
+
 
   return (
     <NavigationContainer>
@@ -53,18 +58,42 @@ export default function App() {
             {(props) => <MainPage {...props} data={locationsArray} />}
         </Stack.Screen>
 
-        {/* <Stack.Screen 
+        <Stack.Screen 
           name="EastRemote" 
           options={{ title: 'East Remote' }}
         >
           {(props) => {
-            return <EastRemote {...props} eastRemoteData={eastRemoteData} />;
+            return <EastRemotePage {...props} parkingData={eastRemoteData} />;
           }}
-        </Stack.Screen> */}
+        </Stack.Screen>
 
-        {<Stack.Screen name="WestRemote" component={WestRemotePage} options={{ title: 'West Remote' }}/>}
-        {<Stack.Screen name="ArtsLot" component={ArtsLotPage} options={{ title: 'Arts Lot' }}/>}
-        {<Stack.Screen name="WestCore" component={WestCorePage} options={{ title: 'West Core' }}/>}
+        <Stack.Screen 
+          name="WestRemote" 
+          options={{ title: 'West Remote' }}
+        >
+          {(props) => {
+            return <WestRemotePage {...props} parkingData={westRemoteData} />;
+          }}
+        </Stack.Screen>
+
+        <Stack.Screen 
+          name="ArtsLot" 
+          options={{ title: 'Art Lot' }}
+        >
+          {(props) => {
+            return <ArtsLotPage {...props} parkingData={artsLotData} />;
+          }}
+        </Stack.Screen>
+
+        <Stack.Screen 
+          name="WestCore" 
+          options={{ title: 'West Core' }}
+        >
+          {(props) => {
+            return <WestCorePage {...props} parkingData={westCoreData} />;
+          }}
+        </Stack.Screen>
+
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

@@ -26,8 +26,16 @@ const chartConfig = {
   }
 };
 
-const WestCore = () => {
+const WestCore = ({parkingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
+
+  const { cars, time } = parkingData || {};
+
+  // Function to format time in AM/PM
+  const formatTime = (inputTime) => {
+    const formattedTime = new Date(`2022-01-20T${inputTime}`);
+    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  };
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -66,8 +74,8 @@ const WestCore = () => {
       </ScrollView>
       <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
         <Text style={styles.spotsLeft}>Spots Left</Text>
-        <Text style={styles.spotsNumber}>8</Text>
-        <Text style={styles.lastUpdated}>Last Updated: 7:52:15pm</Text>
+        <Text style={styles.spotsNumber}>{cars}</Text>
+        <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>

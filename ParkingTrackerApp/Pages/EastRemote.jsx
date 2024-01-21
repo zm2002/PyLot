@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
@@ -26,19 +26,10 @@ const chartConfig = {
   }
 };
 
-const EastRemote = ({eastRemoteData}) => {
+const EastRemote = ({parkingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
 
-  console.log("inside EastRemote...");
-
-  // ** fetch data from Firebase dynamically **
-  const [dynamicEastRemoteData, setDynamicEastRemoteData] = useState([]);
-  useEffect(() => {
-    setDynamicEastRemoteData(eastRemoteData);
-  }, [eastRemoteData]);
-
-  console.log(dynamicEastRemoteData);
-  const { cars, time } = eastRemoteData || {};
+  const { cars, time } = parkingData || {};
 
   // Function to format time in AM/PM
   const formatTime = (inputTime) => {

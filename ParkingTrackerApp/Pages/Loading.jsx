@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProgressBar from './AppBar'; // Ensure this path is correct
 import MainPage from './MainPage'; // Ensure this path is correct
 
-const LoadingScreen = () => {
+const LoadingScreen = ({locationsArray}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const LoadingScreen = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  return isLoading ? <ProgressBar /> : <MainPage />;
+  return isLoading ? <ProgressBar /> : <MainPage data={locationsArray}/>;
 };
 
 export default LoadingScreen;
