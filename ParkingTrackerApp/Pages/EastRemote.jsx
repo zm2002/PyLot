@@ -26,8 +26,26 @@ const chartConfig = {
   }
 };
 
-const EastRemote = () => {
+const EastRemote = ({eastRemoteData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
+
+  console.log("inside EastRemote...");
+
+  // ** fetch data from Firebase dynamically **
+  const [dynamicEastRemoteData, setDynamicEastRemoteData] = useState([]);
+  useEffect(() => {
+    setDynamicEastRemoteData(eastRemoteData);
+  }, [eastRemoteData]);
+
+  console.log(dynamicEastRemoteData);
+  const { cars, time } = eastRemoteData || {};
+
+  // Function to format time in AM/PM
+  const formatTime = (inputTime) => {
+    const formattedTime = new Date(`2022-01-20T${inputTime}`);
+    return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  };
+
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -66,8 +84,8 @@ const EastRemote = () => {
       </ScrollView>
       <View style={[styles.spotsContainer, isBottomReached && styles.expandedContainer]}>
         <Text style={styles.spotsLeft}>Spots Left</Text>
-        <Text style={styles.spotsNumber}>5</Text>
-        <Text style={styles.lastUpdated}>Last Updated: 11:39:15pm</Text>
+        <Text style={styles.spotsNumber}>{cars}</Text>
+        <Text style={styles.lastUpdated}>Last Updated: {formatTime(time)}</Text>
         {isBottomReached && (
           <>
             <Text style={styles.bestTimeText}>Best time to park here today</Text>
