@@ -279,7 +279,7 @@ const darkMapStyle = [
 
 SplashScreen.preventAutoHideAsync();
 
-const MainPage = () => {
+const MainPage = ({ data }) => {
   const navigation = useNavigation();
   const [expanded, setExpanded] = useState(false);
   const listHeightAnim = useRef(new Animated.Value(240)).current; // Initial height for 2 items
@@ -304,6 +304,18 @@ const MainPage = () => {
       },
     })
   ).current;
+
+
+  // console.log("inside MainPage....");
+  // console.log(data);
+  const locations = data
+    .filter(item => item.name !== "Graphing") // Exclude "Graphing"
+    .map(item => ({
+      name: item.name,
+      count: item.cars !== undefined ? item.cars : 0
+    }));
+  
+  // console.log(formattedData);
   
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -323,13 +335,13 @@ const MainPage = () => {
     return null; // Or some loading component
   }
 
-  const locations = [
-    { name: 'East Remote', count: 3 },
-    { name: 'West Remote', count: 8 },
-    { name: 'Arts Lot', count: 17 },
-    { name: 'West Core', count: 4 },
-    // ... add more locations if necessary
-  ];
+  // const locations = [
+  //   { name: 'East Remote', count: 3 },
+  //   { name: 'West Remote', count: 8 },
+  //   { name: 'Arts Lot', count: 17 },
+  //   { name: 'West Core', count: 4 },
+  //   // ... add more locations if necessary
+  // ];
 
   const navigateToLocation = (locationName) => {
     const screenName = locationName.replace(/\s+/g, '');

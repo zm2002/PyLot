@@ -18,9 +18,7 @@ const rootRef = ref(getDatabase(firebaseApp));
 export const fetchDataFromFirebase = (setDataCallback) => {
   const dataRef = onValue(rootRef, (snapshot) => {
     const newData = snapshot.val();
-
-    console.log(newData);
-
+    
     setDataCallback(newData);
   });
 

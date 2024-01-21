@@ -6,8 +6,10 @@ import MainPage from './Pages/MainPage';
 import EastRemotePage from './Pages/EastRemote';
 // import WestRemotePage from './Pages/WestRemote';
 // import ArtLotPage from './Pages/ArtLot';
+import { convertJsonToLocationsArray } from './parkingDataConversion';
 
 import { fetchDataFromFirebase } from './FirebaseService';
+import EastRemote from './Pages/EastRemote';
 
 // Import other location pages here
 
@@ -23,19 +25,32 @@ export default function App() {
     return cleanupFunction;
   }, []);
 
+  const locationsArray = data ? convertJsonToLocationsArray(data) : [];
+  const eastRemote = locationsArray.find(location => location.name === "East Remote");
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen 
-          name="Main" 
-          component={MainPage}
-          options={{
-            headerShown: false, // This hides the header for the MainPage
+            name="Main" 
+            options={{
+              headerShown: false,
+            }}
+          >
+            {(props) => <MainPage {...props} data={locationsArray} />}
+        </Stack.Screen>
+        
+        {/* {<Stack.Screen name="EastRemote" component={EastRemotePage} options={{ title: 'East Remote' }} />} */}
+        <Stack.Screen 
+          name="EastRemote" 
+          options={{ title: 'East Remote' }}
+        >
+          {(props) => {
+            return <EastRemote {...props} eastRemoteData={eastRemote} />;
           }}
-        />
-        {/* Add more Stack.Screen for each location page */}
-        {/* Example: */}
-        {<Stack.Screen name="EastRemote" component={EastRemotePage} options={{ title: 'East Remote' }} />}
+        </Stack.Screen>
+
         {/* {<Stack.Screen name="WestRemote" component={WestRemotePage} />}
         {<Stack.Screen name="ArtLot" component={ArtLotPage} />}
         {<Stack.Screen name="WestCore" component={WestCorePage} />} */}
