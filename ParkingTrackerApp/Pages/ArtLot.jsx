@@ -26,16 +26,8 @@ const chartConfig = {
 const ArtLot = ({parkingData, graphingData}) => {
   const [isBottomReached, setIsBottomReached] = useState(false);
 
-  // console.log("inside art lot:");
-  // console.log(graphingData);
-
-  // console.log(graphingData["Spots Remaining"]);
-
   const graphList = graphingData["Spots Remaining"];
   
-
-  console.log(graphList)
-
   const graphDataToShow = {
     labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
     datasets: [{

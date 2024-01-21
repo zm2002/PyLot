@@ -35,14 +35,17 @@ export default function App() {
     return cleanupFunction;
   }, []);
 
-  // const bruh = graphingData["Arts Lot"];
-  // console.log(bruh);
+  const bruh = graphingData;
+  console.log(bruh);
 
   const locationsArray = data ? convertJsonToLocationsArray(data) : [];
   const eastRemoteData = locationsArray.find(location => location.name === "East Remote");
   const westRemoteData = locationsArray.find(location => location.name === "West Remote");
   const artsLotData = locationsArray.find(location => location.name === "Arts Lot");
   const westCoreData = locationsArray.find(location => location.name === "West Core");
+
+  console.log("west remote:")
+  console.log(graphingData['West Remote'])
 
   return (
     <NavigationContainer>
@@ -70,7 +73,7 @@ export default function App() {
           options={{ title: 'East Remote' }}
         >
           {(props) => {
-            return <EastRemotePage {...props} parkingData={eastRemoteData} />;
+            return <EastRemotePage {...props} parkingData={eastRemoteData} graphingData={graphingData['East Remote']}/>;
           }}
         </Stack.Screen>
 
@@ -79,7 +82,7 @@ export default function App() {
           options={{ title: 'West Remote' }}
         >
           {(props) => {
-            return <WestRemotePage {...props} parkingData={westRemoteData} />;
+            return <WestRemotePage {...props} parkingData={westRemoteData} graphingData={graphingData['West Remote']}/>;
           }}
         </Stack.Screen>
 
@@ -97,7 +100,7 @@ export default function App() {
           options={{ title: 'West Core' }}
         >
           {(props) => {
-            return <WestCorePage {...props} parkingData={westCoreData} />;
+            return <WestCorePage {...props} parkingData={westCoreData} graphingData={graphingData['West Core']}/>;
           }}
         </Stack.Screen>
 
