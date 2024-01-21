@@ -317,8 +317,11 @@ const MainPage = () => {
   const itemHeight = 120; // Assuming each item's height is 120 based on padding and font size
 
   const navigateToLocation = (locationName) => {
+    // Convert the location name to the format used in navigation
+    // Example: 'East Remote' -> 'EastRemote'
     const screenName = locationName.replace(/\s+/g, '');
-    navigation.navigate(screenName);
+    setModalVisible(false); // Close the modal
+    navigation.navigate(screenName); // Navigate to the new screen
   };
 
   return (
@@ -402,23 +405,22 @@ const MainPage = () => {
           <Text style={styles.returnButtonText}>Return</Text>
         </TouchableOpacity>
         <ScrollView style={styles.fullList}>
-          {locations.map((location, index) => {
-            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textDefault;
+        {locations.map((location, index) => {
+            const locationTextStyle = location.count < 5 ? styles.textRed : styles.textBlue;
             return (
-              <TouchableOpacity
-                key={index.toString()}
-                style={styles.locationItem}
-                onPress={() => navigateToLocation(location.name)}
-              >
-                <Text style={[styles.locationName, locationTextStyle]}>
-                  {location.name}
-                </Text>
-                <Text style={[styles.locationCount, locationTextStyle]}>
-                  {location.count}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+            <TouchableOpacity
+              key={index}
+              style={styles.locationItem}
+              onPress={() => navigateToLocation(location.name)}
+            >
+              <Text style={[styles.locationName, locationTextStyle]}>
+                {location.name}
+              </Text>
+              <Text style={[styles.locationCount, locationTextStyle]}>
+                {location.count}
+              </Text>
+            </TouchableOpacity>
+          )})}
         </ScrollView>
       </Modal>
     </View>
