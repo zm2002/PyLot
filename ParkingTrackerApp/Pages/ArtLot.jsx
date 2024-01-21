@@ -5,13 +5,6 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 const screenWidth = Dimensions.get('window').width;
 
-const data = {
-  labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
-  datasets: [{
-    data: [20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60, 20, 15, 10, 22, 15, 5, 20, 30, 40,50, 60,70]
-  }]
-};
-
 // catered towards "Art List"
 // list_of_times = Time
 // data -> Spots Remaining
@@ -35,6 +28,17 @@ const ArtLot = ({parkingData, graphingData}) => {
 
   console.log("inside art lot:");
   console.log(graphingData);
+
+  console.log(graphingData["Spots Remaining"]);
+
+  const graphDataToShow = {
+    labels: ['1/14', '1/15', '1/16', '1/17', '1/18', '1/19', '1/20', 'invisible'],
+    datasets: [{
+      data: graphingData["Spots Remaining"]
+    }]
+  };
+
+  
 
   const { cars, time } = parkingData || {};
 
@@ -65,7 +69,7 @@ const ArtLot = ({parkingData, graphingData}) => {
         scrollEventThrottle={16}
       >
         <LineChart
-          data={data}
+          data={graphDataToShow}
           width={screenWidth}
           height={360}
           chartConfig={chartConfig}

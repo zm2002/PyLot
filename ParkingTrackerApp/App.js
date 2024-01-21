@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [data, setData] = useState(null);
-  const [graphingData, setGraphingData] = useState(null);
+  const [graphingData, setGraphingData] = useState({});
 
 
   useEffect(() => {
@@ -35,17 +35,14 @@ export default function App() {
     return cleanupFunction;
   }, []);
 
-  const bruh = graphingData['Arts Lot'];
-  console.log(bruh);
+  // const bruh = graphingData["Arts Lot"];
+  // console.log(bruh);
 
   const locationsArray = data ? convertJsonToLocationsArray(data) : [];
   const eastRemoteData = locationsArray.find(location => location.name === "East Remote");
   const westRemoteData = locationsArray.find(location => location.name === "West Remote");
   const artsLotData = locationsArray.find(location => location.name === "Arts Lot");
   const westCoreData = locationsArray.find(location => location.name === "West Core");
-
-
-
 
   return (
     <NavigationContainer>
