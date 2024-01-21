@@ -53,19 +53,13 @@ export default function App() {
       },
       headerTintColor: 'white',
       }}>
-        {/* <Stack.Screen
-          name="Main"
-          component={LoadingScreen}
+        <Stack.Screen
+          name="Loading Screen"
           options={{ headerShown: false }}
-        /> */}
-
-        <Stack.Screen 
-            name="Main" 
-            options={{
-              headerShown: false,
-            }}
-          >
-            {(props) => <MainPage {...props} data={locationsArray} />}
+        >
+          {(props) => {
+            return <LoadingScreen {...props} locationsArray={locationsArray} />;
+          }}
         </Stack.Screen>
 
         <Stack.Screen 
