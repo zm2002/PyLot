@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
@@ -53,7 +53,6 @@ const EastRemote = ({parkingData, graphingData}) => {
     return formattedTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
   };
 
-  const { cars, time } = parkingData || {};
 
   const handleScroll = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -76,7 +75,7 @@ const EastRemote = ({parkingData, graphingData}) => {
         scrollEventThrottle={16}
       >
         <LineChart
-          data={data}
+          data={graphDataToShow}
           width={screenWidth}
           height={360}
           chartConfig={chartConfig}
