@@ -358,13 +358,11 @@ const MainPage = () => {
         </Marker>
 
       </MapView>
-      <ScrollView style={styles.scrollView}>
+
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Banana Spot</Text>
         </View>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <Image source={require('../assets/map.png')} style={styles.map} />
-      </ScrollView>
 
       <View
         style={[styles.locationListContainer, { height: itemHeight * 2 }]}
@@ -438,21 +436,24 @@ const styles = StyleSheet.create({
   },
   banner: {
     backgroundColor: '#000',
-    paddingVertical: 10,
+    paddingVertical: 5,
+    zIndex: 11,
   },
   bannerText: {
     textAlign: 'center',
     color: '#fff',
-    top: 50,
+    top: 45,
     fontSize: 24,
     fontWeight: 'bold',
+    zIndex: 10,
   },
   logo: {
     width: 50,
     height: 50,
     top: -8,
-    left: -7,
+    left: -10,
     margin: 10,
+    zIndex: 10,
   },
   container: {
     width: '100%',
@@ -466,21 +467,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  map: {
-    position: 'absolute',
-    top: 100,
-    width: '100%',
-    resizeMode: 'contain',
-    height: height * 0.7,
-    zIndex: -1,
-  },
   map2: {
     position: 'absolute',
-    top: 100,
+    top: 108,
     width: '100%',
     resizeMode: 'contain',
-    height: height * 0.7,
-    zIndex: 5,
+    height: height,
+    zIndex: 0,
   },
   locationListContainer: {
     position: 'absolute',
