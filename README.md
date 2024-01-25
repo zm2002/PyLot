@@ -35,11 +35,8 @@ Through the course of this project, our team learned a whole new language in the
 ## What's next for Slug Spot. 
 Sleep, and then we’ve already discussed creating our own hardware for real-world testing around campus. This would be a camera microcomputer machine that we could mount in several parking lots. This would involve purchasing equipment, designing parts, and a lot more experimentation than what we have done so far.
 
-***Disclaimer***
-- Due to technical difficulties, our original branch with our code had been deleted due to trying to migrate a non-main branch to become the NEW main. We decided to restore our old branch (as we had multiple backups) and successfully retrieved the project. We apologize for any confusion!
-
 Made by:
 - Zahra (ML Engineer, Front-end, UI/UX)
 - Rylee (Front-end, UI/UX, Back-end)
 - Animesh (API Integration, Back-end, Data Analytics)
-- Merrick (API Integration, Back-End, Data Analytics, ML Engineer)
+- Merrick (API Integration, Back-end, Data Analytics, ML Engineer)
