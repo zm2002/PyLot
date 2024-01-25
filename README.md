@@ -42,4 +42,4 @@ Made by:
 - Zahra (ML Engineer, Front-end, UI/UX)
 - Rylee (Front-end, UI/UX, Back-end)
 - Animesh (API Integration, Back-end, Data Analytics)
-- Merrick (API Integration, Back-End, Data Anlaytics, ML Engineer)
+- Merrick (API Integration, Back-End, Data Analytics, ML Engineer)
