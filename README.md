@@ -14,25 +14,25 @@
 - You can run the app by doing `npx expo start`
 
 
-## Inspiration. 
+## Inspiration 
 Many of us have experienced the frustration of driving for hours, only to find that there's no available parking. This issue is particularly acute on campus during busy periods, such as class times, making parking a challenge. For those living off-campus and relying solely on driving to fulfill their commitments, this often leads to tardiness due to the scarcity of accessible parking spots. Moreover, there is an absence of mobile solutions in most cities to update drivers on parking garage availability. This is leading to traffic congestion, contributing to unnecessary fuel consumption and heightened driver irritation. The endeavor to ease this process inspired us to create SlugSpot.  
   
-## What it does. 
+## What it does 
 SlugSpot tracks real-time availability in parking garages near your destination, delivering instant updates directly to your phone. The app also analyzes parking patterns to recommend the best times for hassle-free parking allowing you to arrive at your destination on time.  
   
-## How we built it. 
+## How we built it 
 SlugSpot calculates the number of parking spots available through images captured on a video camera. To develop SlugSpot, we used React-Native to build our user interface and FireBase to create our database and backend. We built our car detection software using open-cv. In order to observe the output of our application, we used Expo Go. Figma served as our go-to way to create our designs and GitHub was our main resource to store and share files.    
   
-## Challenges we ran into.  
+## Challenges we ran into  
 Creating an API that would communicate between Firebase and our programs is the most challenging part of our project. Our project utilizes several different languages that each require different methods of query to access the data. Creating a React Native app was a first for all of us and posed its own challenges.  
   
-## Accomplishments that we're proud of. 
+## Accomplishments that we're proud of 
 We are very proud of how we managed to ensure scalability if we wanted to continue this project after the hackathon, and we feel our efforts rewarded us with a very developed and professional full-stack project that could benefit our community.  
   
-## What we learned. 
+## What we learned 
 Through the course of this project, our team learned a whole new language in the form of React-Native. React-Native is a framework that allows you to build mobile applications natively across multiple platforms. Learning React-Native was a challenge. Furthermore, collaborating through git and Liveshare on VScode presented its own challenges. We spent a lot of time learning workflow prioritizing to ensure that when each member finished, we could integrate our programs together quickly and without pain. Through a lot of research and collective debugging, we were able to tie a lot of different programs together and create a project we are proud of.  
   
-## What's next for Slug Spot. 
+## What's next for PyLot 
 Sleep, and then we’ve already discussed creating our own hardware for real-world testing around campus. This would be a camera microcomputer machine that we could mount in several parking lots. This would involve purchasing equipment, designing parts, and a lot more experimentation than what we have done so far.
 
 Made by:
